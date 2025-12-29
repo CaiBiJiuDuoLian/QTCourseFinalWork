@@ -15,6 +15,9 @@ public:
     explicit BorrowSelect(QWidget *parent = nullptr);
     ~BorrowSelect();
 
+private slots:
+    void on_btSearch_clicked();
+
 private:
     Ui::BorrowSelect *ui;
 };

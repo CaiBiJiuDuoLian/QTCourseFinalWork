@@ -6,17 +6,6 @@
 #include<QSqlDatabase>
 #include<QDataWidgetMapper>
 
-// class IDatabase : public QObject
-// {
-//     Q_OBJECT
-// public:
-//     explicit IDatabase(QObject *parent = nullptr);
-
-// signals:
-// };
-
-// #endif // IDATABASE_H
-
 
 class IDatabase : public QObject
 {
@@ -32,8 +21,14 @@ public:
     IDatabase& operator=(const IDatabase&) = delete;
 
     // 成员变量声明（需public或提供getter）
+    //图书信息表
     QSqlTableModel *bookMessageTabModel = nullptr;
     QItemSelectionModel *theBookMessageSelection = nullptr;
+
+    //借阅记录表
+    QSqlTableModel *borrowRecordsTabModel = nullptr;
+    QItemSelectionModel *theborrowRecordsSelection = nullptr;
+
 
     QString userLogin(QString userName,QString password);
 
@@ -42,6 +37,7 @@ private:
     QSqlDatabase database;
     void initDatabase();
 public:
+    //图书信息模型
     bool initBookMessageModel();
 
     int addNewBookMessage();
@@ -50,6 +46,10 @@ public:
     bool submitBookMessageEdit();
     void revertBookMessageEdit();
 
+    //借阅信息模型
+    bool initBorrowRecordsModel();
+
+    bool searchBorrowRecords(QString filter);
 
 
 signals:

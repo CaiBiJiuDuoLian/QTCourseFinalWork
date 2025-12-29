@@ -1,17 +1,7 @@
-// #include "idatabase.h"
-
-// IDatabase::IDatabase(QObject *parent)
-//     : QObject{parent}
-// {
-
-// }
 
 #include "idatabase.h"
 #include<QDebug>
 #include<QUuid>
-
-
-
 
 void IDatabase::initDatabase()
 {
@@ -34,13 +24,6 @@ void IDatabase::initDatabase()
 }
 
 
-
-
-
-
-
-
-
 bool IDatabase::initBookMessageModel()
 {
     qDebug() << "===== 初始化患者模型 =====";
@@ -51,12 +34,12 @@ bool IDatabase::initBookMessageModel()
     bookMessageTabModel=new QSqlTableModel(this,database);
     qDebug() << "bookMessageTabModel 创建：" << bookMessageTabModel; // 打印指针地址，若为0则崩溃
     bookMessageTabModel->setTable("books");
-    qDebug() << "设置表为patient：" << bookMessageTabModel->lastError().text();
+    qDebug() << "设置表为books：" << bookMessageTabModel->lastError().text();
     bookMessageTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
     bookMessageTabModel->setSort(bookMessageTabModel->fieldIndex("name"),Qt::AscendingOrder);
     qDebug() << "排序字段：" << bookMessageTabModel->fieldIndex("name"); // 若为-1，说明字段名错误
     if(!(bookMessageTabModel->select())) {
-        qDebug() << "查询patient表失败：" << bookMessageTabModel->lastError().text();
+        qDebug() << "查询books表失败：" << bookMessageTabModel->lastError().text();
         return false;
     }
     theBookMessageSelection=new QItemSelectionModel(bookMessageTabModel);
@@ -64,6 +47,28 @@ bool IDatabase::initBookMessageModel()
     return true;
 }
 
+bool IDatabase::initBorrowRecordsModel()
+{
+    qDebug() << "===== 初始化患者模型 =====";
+    if (!database.isOpen()) { // 先检查数据库是否打开
+        qDebug() << "数据库未打开，初始化模型失败";
+        return false;
+    }
+    borrowRecordsTabModel=new QSqlTableModel(this,database);
+    qDebug() << "borrowRecordsTabModel 创建：" << borrowRecordsTabModel; // 打印指针地址，若为0则崩溃
+    borrowRecordsTabModel->setTable("borrow_records");
+    qDebug() << "设置表为borrow_records：" << borrowRecordsTabModel->lastError().text();
+    borrowRecordsTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
+    borrowRecordsTabModel->setSort(borrowRecordsTabModel->fieldIndex("book_id"),Qt::AscendingOrder);
+    qDebug() << "排序字段：" << borrowRecordsTabModel->fieldIndex("book_id"); // 若为-1，说明字段名错误
+    if(!(borrowRecordsTabModel->select())) {
+        qDebug() << "查询borrow_records表失败：" << borrowRecordsTabModel->lastError().text();
+        return false;
+    }
+    theborrowRecordsSelection=new QItemSelectionModel(borrowRecordsTabModel);
+    qDebug() << "theborrowRecordsSelection 创建：" << theborrowRecordsSelection;
+    return true;
+}
 
 
 int IDatabase::addNewBookMessage()
@@ -90,6 +95,16 @@ bool IDatabase::searchBookMessage(QString filter)
     bool ok = bookMessageTabModel->select(); // 应用过滤并重新查询
     if (!ok) {
         qDebug() << "查询失败：" << bookMessageTabModel->lastError().text();
+    }
+    return ok;
+}
+
+bool IDatabase::searchBorrowRecords(QString filter)
+{
+    borrowRecordsTabModel->setFilter(filter);
+    bool ok = borrowRecordsTabModel->select(); // 应用过滤并重新查询
+    if (!ok) {
+        qDebug() << "查询失败：" << borrowRecordsTabModel->lastError().text();
     }
     return ok;
 }
