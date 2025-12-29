@@ -15,8 +15,14 @@ public:
     explicit loginView(QWidget *parent = nullptr);
     ~loginView();
 
+private slots:
+    void on_btSignin_clicked();
+
 private:
     Ui::loginView *ui;
+
+signals:
+    void LoginSuccess();
 };
 
 #endif // LOGINVIEW_H

@@ -15,6 +15,21 @@ public:
     explicit WelcomeView(QWidget *parent = nullptr);
     ~WelcomeView();
 
+private slots:
+    void on_btMessage_clicked();
+
+    void on_btFile_clicked();
+
+    void on_btRecord_clicked();
+
+    void on_btSelect_clicked();
+
+signals:
+    void goBookMessageView();
+    void goBorrowSelectView();
+    void goRecordView();
+    void goReaderFileView();
+
 private:
     Ui::WelcomeView *ui;
 };
