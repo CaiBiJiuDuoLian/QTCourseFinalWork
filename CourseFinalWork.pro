@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Idatabase.cpp \
     bookmessageeditview.cpp \
     bookmessageview.cpp \
     borrowbookeditview.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
     welcomeview.cpp
 
 HEADERS += \
+    Idatabase.h \
     bookmessageeditview.h \
     bookmessageview.h \
     borrowbookeditview.h \

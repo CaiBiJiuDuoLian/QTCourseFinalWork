@@ -77,12 +77,18 @@ void MasterView::goWelcomeView()
 void MasterView::goBookMessageEditView(int rowNo)
 {
 
+    book_message_edit_view=new bookMessageEditView(this,rowNo);
+
+    pushWidgetToStackView(book_message_edit_view);
+
+    connect(book_message_edit_view,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::goBookMessageView()
 {
     book_message_view=new BookMessageView(this);
     pushWidgetToStackView(book_message_view);
+    connect(book_message_view,SIGNAL(goBookMessageEditView(int)),this,SLOT(goBookMessageEditView(int)));
 }
 
 
