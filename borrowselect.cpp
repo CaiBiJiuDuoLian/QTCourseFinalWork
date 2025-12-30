@@ -22,6 +22,8 @@ BorrowSelect::BorrowSelect(QWidget *parent)
     }
 }
 
+
+
 BorrowSelect::~BorrowSelect()
 {
     delete ui;
@@ -31,6 +33,6 @@ void BorrowSelect::on_btSearch_clicked()
 {
     QString filter =QString("readerName like '%%1%'").arg(ui->txtSearch->text());
 
-    IDatabase::getInstance().searchBorrowRecords(filter);
+    IDatabase::getInstance().searchRecord(filter);
 }
 

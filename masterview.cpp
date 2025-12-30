@@ -95,7 +95,11 @@ void MasterView::goBookMessageView()
 
 void MasterView::goBorrowBookEditView(int rowNo)
 {
+    borrow_book_edit_view=new borrowBookEditView(this,rowNo);
 
+    pushWidgetToStackView( borrow_book_edit_view);
+
+    connect( borrow_book_edit_view,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::goBorrowSelectView()
@@ -127,6 +131,7 @@ void MasterView::goRecordView()
 {
     record_view=new RecordView(this);
     pushWidgetToStackView(record_view);
+    connect( record_view,SIGNAL(goBorrowRecordsEditView(int)),this,SLOT(goBorrowBookEditView(int)));
 }
 
 void MasterView::goPreviousView()

@@ -34,6 +34,10 @@ public:
     QItemSelectionModel *theReaderFileSelection = nullptr;
 
 
+    //借还书记录模型
+    //QSqlTableModel *borrowRecordTabModel = nullptr;
+    //QItemSelectionModel *theRecordSelection = nullptr;
+
     QString userLogin(QString userName,QString password);
 
 private:
@@ -53,7 +57,12 @@ public:
     //借阅信息模型
     bool initBorrowRecordsModel();
 
-    bool searchBorrowRecords(QString filter);
+
+    int addNewBorrowRecord();                  //借书
+    bool searchRecord(QString filter);   //查找
+    bool submitRecordEdit();             //保存到数据库
+    void revertRecordEdit();
+    //那么我想要还书该如何操作呢，我应该获取焦点，然后将is_returned字段设置为1，不删除
 
 
     //读者档案模型
@@ -64,6 +73,10 @@ public:
     bool deleteCurrentReaderFile();
     bool submitReaderFileEdit();
     void revertReaderFileEdit();
+
+    //借还书记录模型
+
+
 
 signals:
 

@@ -53,6 +53,7 @@ bool IDatabase::initBorrowRecordsModel()
         qDebug() << "数据库未打开，初始化模型失败";
         return false;
     }
+
     borrowRecordsTabModel=new QSqlTableModel(this,database);
     qDebug() << "borrowRecordsTabModel 创建：" << borrowRecordsTabModel; // 打印指针地址，若为0则崩溃
     borrowRecordsTabModel->setTable("borrow_records");
@@ -83,8 +84,8 @@ bool IDatabase::initReaderFileModel()
     readerFileTabModel->setTable("readers");
     qDebug() << "设置表为readers：" << readerFileTabModel->lastError().text();
     readerFileTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
-   readerFileTabModel->setSort(readerFileTabModel->fieldIndex("name"),Qt::AscendingOrder);
-    qDebug() << "排序字段：" << readerFileTabModel->fieldIndex("name"); // 若为-1，说明字段名错误
+   readerFileTabModel->setSort(readerFileTabModel->fieldIndex("reader_id"),Qt::AscendingOrder);
+    qDebug() << "排序字段：" << readerFileTabModel->fieldIndex("reader_id"); // 若为-1，说明字段名错误
     if(!(readerFileTabModel->select())) {
         qDebug() << "查询books表失败：" << readerFileTabModel->lastError().text();
         return false;
@@ -93,6 +94,29 @@ bool IDatabase::initReaderFileModel()
     qDebug() << "theReaderFileSelection 创建：" << theReaderFileSelection;
     return true;
 }
+
+// bool IDatabase::initBorrowRecordsModel()
+// {
+//     qDebug() << "===== 初始化患者模型 =====";
+//     if (!database.isOpen()) { // 先检查数据库是否打开
+//         qDebug() << "数据库未打开，初始化模型失败";
+//         return false;
+//     }
+//     borrowRecordsTabModel=new QSqlTableModel(this,database);
+//     qDebug() << "borrowRecordsTabModel 创建：" << borrowRecordsTabModel; // 打印指针地址，若为0则崩溃
+//     borrowRecordsTabModel->setTable("borrow_records");
+//     qDebug() << "设置表为borrow_records：" << borrowRecordsTabModel->lastError().text();
+//     borrowRecordsTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
+//     borrowRecordsTabModel->setSort(borrowRecordsTabModel->fieldIndex("readerName"),Qt::AscendingOrder);
+//     qDebug() << "排序字段：" << borrowRecordsTabModel->fieldIndex("readerName"); // 若为-1，说明字段名错误
+//     if(!(borrowRecordsTabModel->select())) {
+//         qDebug() << "查询books表失败：" << borrowRecordsTabModel->lastError().text();
+//         return false;
+//     }
+//     theborrowRecordsSelection=new QItemSelectionModel(borrowRecordsTabModel);
+//     qDebug() << "theRecordSelection 创建：" << theborrowRecordsSelection;
+//     return true;
+// }
 
 
 int IDatabase::addNewBookMessage()
@@ -127,6 +151,23 @@ int IDatabase::addNewReaderFile()
 
 }
 
+int IDatabase::addNewBorrowRecord()
+{
+    borrowRecordsTabModel->insertRow(borrowRecordsTabModel->rowCount(),
+                                  QModelIndex());
+    QModelIndex curIndex=borrowRecordsTabModel->index(borrowRecordsTabModel->rowCount()-1,
+                                                     1);
+
+    int curRecNo=curIndex.row();
+    QSqlRecord curRec=borrowRecordsTabModel->record(curRecNo);
+    //此处可以设置值，而不是输入
+    // curRec.setValue("CREATEDTIMESAMP",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    //curRec.setValue("book_id",QUuid::createUuid().toString(QUuid::WithoutBraces));
+    borrowRecordsTabModel->setRecord(curRecNo,curRec);
+    return curIndex.row();
+
+}
+
 
 
 bool IDatabase::searchBookMessage(QString filter)
@@ -139,7 +180,7 @@ bool IDatabase::searchBookMessage(QString filter)
     return ok;
 }
 
-bool IDatabase::searchBorrowRecords(QString filter)
+bool IDatabase::searchRecord(QString filter)
 {
     borrowRecordsTabModel->setFilter(filter);
     bool ok = borrowRecordsTabModel->select(); // 应用过滤并重新查询
@@ -239,7 +280,15 @@ void IDatabase::revertReaderFileEdit()
     readerFileTabModel->revertAll();
 }
 
+bool IDatabase::submitRecordEdit()
+{
+    return borrowRecordsTabModel->submitAll();
+}
+void IDatabase::revertRecordEdit()
+{
 
+    borrowRecordsTabModel->revertAll();
+}
 
 // QString IDatabase::userLogin(QString userName, QString password)
 // {
