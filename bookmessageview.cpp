@@ -54,6 +54,7 @@ void BookMessageView::on_btDelete_clicked()
 
 void BookMessageView::on_btEdit_clicked()
 {
+
     QModelIndex curIndex=
         IDatabase::getInstance().theBookMessageSelection->currentIndex();
     emit goBookMessageEditView(curIndex.row());

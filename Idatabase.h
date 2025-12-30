@@ -29,6 +29,10 @@ public:
     QSqlTableModel *borrowRecordsTabModel = nullptr;
     QItemSelectionModel *theborrowRecordsSelection = nullptr;
 
+    //读者档案模型
+    QSqlTableModel *readerFileTabModel = nullptr;
+    QItemSelectionModel *theReaderFileSelection = nullptr;
+
 
     QString userLogin(QString userName,QString password);
 
@@ -51,6 +55,15 @@ public:
 
     bool searchBorrowRecords(QString filter);
 
+
+    //读者档案模型
+    bool initReaderFileModel();
+
+    int addNewReaderFile();
+    bool searchReaderFile(QString filter);
+    bool deleteCurrentReaderFile();
+    bool submitReaderFileEdit();
+    void revertReaderFileEdit();
 
 signals:
 

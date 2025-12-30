@@ -44,7 +44,17 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="btEdit">
+       <property name="text">
+        <string>修改</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2"/>
    </item>
    <item>
     <widget class="QTableView" name="tableView"/>

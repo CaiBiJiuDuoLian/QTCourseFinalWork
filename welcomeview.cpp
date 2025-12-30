@@ -24,6 +24,7 @@ void WelcomeView::on_btMessage_clicked()
 
 void WelcomeView::on_btFile_clicked()
 {
+    qDebug()<<"zhe为啥";
     emit  goReaderFileView();
 }
 

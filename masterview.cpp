@@ -17,6 +17,7 @@ MasterView::~MasterView()
 
 void MasterView::pushWidgetToStackView(QWidget *widget)
 {
+
     ui->stackedWidget->addWidget(widget);
     int count=ui->stackedWidget->count();
     ui->stackedWidget->setCurrentIndex(count -1);
@@ -105,13 +106,21 @@ void MasterView::goBorrowSelectView()
 
 void MasterView::goReaderFileEditView(int rowNo)
 {
+    reader_file_edit_view=new readerFileEditView(this,rowNo);
 
+    pushWidgetToStackView(reader_file_edit_view);
+
+    connect(reader_file_edit_view,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::goReaderFileView()
 {
+    qDebug()<<"这里为什么没执行??";
     reader_file_view=new ReaderFileView(this);
+    qDebug()<<"这里为什么没执行";
     pushWidgetToStackView(reader_file_view);
+        qDebug()<<"这里执行了吗";
+    connect(reader_file_view,SIGNAL(goReaderFileEditView(int)),this,SLOT(goReaderFileEditView(int)));
 }
 
 void MasterView::goRecordView()
