@@ -237,6 +237,7 @@ void borrowBookEditView::on_btBorrow_clicked()
 
 void borrowBookEditView::on_btCancel_clicked()
 {
-
+    IDatabase::getInstance().revertRecordEdit();
+    emit goPreviousView();
 }
 
