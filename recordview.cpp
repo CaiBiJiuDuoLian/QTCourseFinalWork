@@ -121,6 +121,8 @@ void RecordView::on_btReturn_clicked()
     if (db.submitRecordEdit()) {
         QMessageBox::information(this, "成功", "还书操作已完成");
         // 刷新表格，保持只显示未归还记录
+
+
         db.searchRecord("is_returned = 0");
     } else {
         QMessageBox::critical(this, "失败", "操作失败：" + db.borrowRecordsTabModel->lastError().text());

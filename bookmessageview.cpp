@@ -1,6 +1,7 @@
 #include "bookmessageview.h"
 #include "ui_bookmessageview.h"
 #include"idatabase.h"
+#include<QMessageBox>
 BookMessageView::BookMessageView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::BookMessageView)
@@ -55,8 +56,14 @@ void BookMessageView::on_btDelete_clicked()
 void BookMessageView::on_btEdit_clicked()
 {
 
-    QModelIndex curIndex=
-        IDatabase::getInstance().theBookMessageSelection->currentIndex();
+    QModelIndex curIndex =IDatabase::getInstance().theBookMessageSelection->currentIndex();
+    if (!curIndex.isValid()) { // 检查是否选中行
+        qDebug() << "未选中要修改的读者档案";
+        QMessageBox::information(this, "提示", "未选中要修改的图书信息");
+        return ;
+    }
+    // QModelIndex curIndex=
+    //     IDatabase::getInstance().theBookMessageSelection->currentIndex();
     emit goBookMessageEditView(curIndex.row());
 }
 

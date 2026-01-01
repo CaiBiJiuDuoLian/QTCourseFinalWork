@@ -1,6 +1,7 @@
 #include "readerfileview.h"
 #include "ui_readerfileview.h"
 #include"idatabase.h"
+#include <QMessageBox>
 ReaderFileView::ReaderFileView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ReaderFileView)
@@ -54,8 +55,14 @@ void ReaderFileView::on_btDelete_clicked()
 
 void ReaderFileView::on_btEdit_clicked()
 {
-    QModelIndex curIndex=
-        IDatabase::getInstance().theReaderFileSelection->currentIndex();
+    QModelIndex curIndex =IDatabase::getInstance().theReaderFileSelection->currentIndex();
+    if (!curIndex.isValid()) { // 检查是否选中行
+        qDebug() << "未选中要修改的读者档案";
+        QMessageBox::information(this, "提示", "未选中要修改的读者档案");
+        return ;
+    }
+    // QModelIndex curIndex=
+    //     IDatabase::getInstance().theReaderFileSelection->currentIndex();
     emit goReaderFileEditView(curIndex.row());
 }
 

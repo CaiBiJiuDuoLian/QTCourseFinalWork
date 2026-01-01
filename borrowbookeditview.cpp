@@ -1,6 +1,7 @@
 #include "borrowbookeditview.h"
 #include "ui_borrowbookeditview.h"
 #include"idatabase.h"
+#include<QMessageBox>
 borrowBookEditView::borrowBookEditView(QWidget *parent,int index)
     : QWidget(parent)
     , ui(new Ui::borrowBookEditView)
@@ -196,7 +197,8 @@ void borrowBookEditView::on_btBorrow_clicked()
 
     if (readerId.isEmpty() || bookId.isEmpty()) {
         qDebug() << "提交失败：读者ID或图书ID未匹配到";
-        // QMessageBox::critical(this, "错误", "请输入正确的读者名和书名，确保系统能匹配到ID！");
+         QMessageBox::critical(this, "错误", "请输入正确的读者名和书名，确保系统能匹配到ID！");
+        IDatabase::getInstance().searchRecord("readerName<>' ' or readerName<>' ' ");
         return;
     }
     if (borrowTime.isEmpty() || dueTime.isEmpty()) {
@@ -238,6 +240,7 @@ void borrowBookEditView::on_btBorrow_clicked()
 void borrowBookEditView::on_btCancel_clicked()
 {
     IDatabase::getInstance().revertRecordEdit();
+    IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName<>' ' or bookName<>' ') ");
     emit goPreviousView();
 }
 

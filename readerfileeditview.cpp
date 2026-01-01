@@ -1,6 +1,7 @@
 #include "readerfileeditview.h"
 #include "ui_readerfileeditview.h"
 #include"idatabase.h"
+#include<QMessageBox>
 readerFileEditView::readerFileEditView(QWidget *parent,int index)
     : QWidget(parent)
     , ui(new Ui::readerFileEditView)
@@ -31,6 +32,20 @@ readerFileEditView::~readerFileEditView()
 
 void readerFileEditView::on_btSave_clicked()
 {
+
+
+    // 1. 检查必填字段是否为空
+    QString name = ui->ReaderNameInput->text().trimmed();
+    QString phone = ui->readerPhoneInput->text().trimmed();
+
+    // 检查核心必填字段（根据实际业务逻辑调整需要检查的字段）
+    if (name.isEmpty() || phone.isEmpty() ) {
+        QMessageBox::warning(this, "提示", "部分信息未填满，请请完善所有必填字段后再保存！");
+        IDatabase::getInstance().searchReaderFile("name!=' '");
+        return; // 直接返回，不执行后续提交操作
+    }
+
+
     // 1. 手动提交mapper的控件值到模型（关键！）
     dataMapper->submit();
     qDebug()<<"mapper提交完成";

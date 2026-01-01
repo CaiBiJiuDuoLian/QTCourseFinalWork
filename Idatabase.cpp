@@ -1,7 +1,7 @@
 #include "idatabase.h"
 #include<QDebug>
 #include<QUuid>
-
+#include<QMessageBox>
 void IDatabase::initDatabase()
 {
     // 避免重复添加连接
@@ -207,6 +207,7 @@ bool IDatabase::deleteCurrentBookMessage()
     QModelIndex curIndex = theBookMessageSelection->currentIndex();
     if (!curIndex.isValid()) { // 检查是否选中行
         qDebug() << "未选中要删除的患者";
+        QMessageBox::information(nullptr, "提示", "未选中要删除的图书信息");
         return false;
     }
 
@@ -231,6 +232,7 @@ bool IDatabase::deleteCurrentReaderFile()
     QModelIndex curIndex = theReaderFileSelection->currentIndex();
     if (!curIndex.isValid()) { // 检查是否选中行
         qDebug() << "未选中要删除的患者";
+        QMessageBox::information(nullptr, "提示", "未选中要删除的读者档案");
         return false;
     }
 

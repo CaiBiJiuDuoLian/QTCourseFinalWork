@@ -1,6 +1,7 @@
 #include "masterview.h"
 #include "ui_masterview.h"
 #include<QDebug>
+#include"idatabase.h"
 MasterView::MasterView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MasterView)
@@ -99,6 +100,8 @@ void MasterView::goBorrowBookEditView(int rowNo)
 
     pushWidgetToStackView( borrow_book_edit_view);
 
+
+
     connect( borrow_book_edit_view,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
@@ -131,11 +134,14 @@ void MasterView::goRecordView()
 {
     record_view=new RecordView(this);
     pushWidgetToStackView(record_view);
+
+    //IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or readerName!=' ') ");
     connect( record_view,SIGNAL(goBorrowRecordsEditView(int)),this,SLOT(goBorrowBookEditView(int)));
 }
 
 void MasterView::goPreviousView()
 {
+   IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or bookName!=' ') ");
     qDebug()<< "test";
     int count=ui->stackedWidget->count();
     if(count>1){
