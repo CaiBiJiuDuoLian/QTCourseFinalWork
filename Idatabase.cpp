@@ -322,3 +322,24 @@ IDatabase::IDatabase(QObject *parent)
 }
 
 
+
+
+
+
+
+
+
+
+//1.1测试豆包代码
+QSqlQuery IDatabase::getOverdueRecords(const QString &filter) {
+    if (!borrowRecordsTabModel) {
+        return QSqlQuery();
+    }
+
+    QSqlQuery query(borrowRecordsTabModel->database());
+    query.prepare("SELECT * FROM borrow_records WHERE " + filter);
+    query.exec();
+
+    return query;
+}
+

@@ -40,6 +40,9 @@ public:
 
     QString userLogin(QString userName,QString password);
 
+
+
+
 private:
     explicit IDatabase(QObject *parent = nullptr);
     QSqlDatabase database;
@@ -77,6 +80,10 @@ public:
     //借还书记录模型
 
 
+
+
+    //1.1测试豆包代码
+  QSqlQuery getOverdueRecords(const QString &filter);
 
 signals:
 

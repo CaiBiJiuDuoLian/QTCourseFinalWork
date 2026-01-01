@@ -2,19 +2,74 @@
 #include "ui_masterview.h"
 #include<QDebug>
 #include"idatabase.h"
+
+
+#include "overduechecker.h"
+#include<QMessageBox>
+
 MasterView::MasterView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MasterView)
 {
     ui->setupUi(this);
+
+
+    //1.1测试豆包代码
+    // 创建并启动逾期检查线程
+
+
+
+
+
+
+
     goLoginView();
+
+
 
 }
 
 MasterView::~MasterView()
 {
     delete ui;
+
+
+    //1.1测试豆包代码
+    if (m_overdueChecker) {
+        m_overdueChecker->stop();
+        delete m_overdueChecker;
+    }
 }
+
+
+//1.1测试豆包代码
+// 处理逾期记录的槽函数
+void MasterView::handleOverdue(int recordId, const QString &readerName,
+                               const QString &bookName, const QDateTime &dueDate) {
+    // 可以在这里实现提醒逻辑，如弹窗、发送消息等
+    QString msg = QString("读者 %1 借阅的《%2》已逾期！\n应还日期：%3")
+                      .arg(readerName)
+                      .arg(bookName)
+                      .arg(dueDate.toString("yyyy-MM-dd"));
+
+    // 在主线程中显示提示
+    QMessageBox::warning(this, "逾期提醒", msg);
+
+    // 也可以记录到日志或发送通知
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void MasterView::pushWidgetToStackView(QWidget *widget)
 {
@@ -74,6 +129,13 @@ void MasterView::goWelcomeView()
     connect(welcome_view,SIGNAL(goBorrowSelectView()),this,SLOT(goBorrowSelectView()));
     connect(welcome_view,SIGNAL(goRecordView()),this,SLOT(goRecordView()));
     connect(welcome_view,SIGNAL(goReaderFileView()),this,SLOT(goReaderFileView()));
+
+
+    m_overdueChecker = new OverdueChecker(this);
+    connect(m_overdueChecker, &OverdueChecker::overdueFound,
+            this, &MasterView::handleOverdue);
+    m_overdueChecker->start();
+    //doubaodaimajiezhi
 }
 
 void MasterView::goBookMessageEditView(int rowNo)

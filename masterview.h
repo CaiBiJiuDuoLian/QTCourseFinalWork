@@ -11,6 +11,14 @@
 #include"readerfileview.h"
 #include"recordview.h"
 #include"welcomeview.h"
+#include"overduechecker.h"
+
+
+
+
+
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MasterView;
@@ -24,6 +32,8 @@ class MasterView : public QWidget
 public:
     MasterView(QWidget *parent = nullptr);
     ~MasterView();
+
+      OverdueChecker *m_overdueChecker;
 
 private slots:
     void on_btBack_clicked();
@@ -46,6 +56,11 @@ public slots:
     void goRecordView();
     void goPreviousView();
 
+
+    //doubaodaima
+    void handleOverdue(int recordId, const QString &readerName,
+                       const QString &bookName, const QDateTime &dueDate);
+    //void checkOverdueRecords(QSqlDatabase &db);
 
 
 private:

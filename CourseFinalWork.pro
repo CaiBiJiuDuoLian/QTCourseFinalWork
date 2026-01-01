@@ -17,6 +17,7 @@ SOURCES += \
     loginview.cpp \
     main.cpp \
     masterview.cpp \
+    overduechecker.cpp \
     readerfileeditview.cpp \
     readerfileview.cpp \
     recordview.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     borrowselect.h \
     loginview.h \
     masterview.h \
+    overduechecker.h \
     readerfileeditview.h \
     readerfileview.h \
     recordview.h \
