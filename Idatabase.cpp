@@ -292,28 +292,28 @@ void IDatabase::revertRecordEdit()
     borrowRecordsTabModel->revertAll();
 }
 
-// QString IDatabase::userLogin(QString userName, QString password)
-// {
-//     QSqlQuery query;
-//     query.prepare("select username,password from user where username= :ID");
-//     query.bindValue(":ID",userName);
-//     query.exec();
-//     if(query.first() && query.value("username").isValid()){
-//         QString passwd=query.value("password").toString();
-//         if(passwd==password){
-//             qDebug()<<"loginOK";
-//             return "loginOK";
-//         }
-//         else{
-//             qDebug()<<"wrongPassword";
-//             return "wrongPassword";
-//         }
-//     }
-//     else{
-//         qDebug()<<"no such user";
-//         return "wrongUsername";
-//     }
-// }
+QString IDatabase::userLogin(QString userName, QString password)
+{
+    QSqlQuery query;
+    query.prepare("select userName,passWord from user where userName= :userId");
+    query.bindValue(":userId",userName);
+    query.exec();
+    if(query.first() && query.value("userName").isValid()){
+        QString passwd=query.value("passWord").toString();
+        if(passwd==password){
+            qDebug()<<"loginOK";
+            return "loginOK";
+        }
+        else{
+            qDebug()<<"wrongPassword";
+            return "wrongPassword";
+        }
+    }
+    else{
+        qDebug()<<"no such user";
+        return "wrongUsername";
+    }
+}
 
 IDatabase::IDatabase(QObject *parent)
     : QObject{parent}

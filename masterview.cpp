@@ -141,7 +141,19 @@ void MasterView::goRecordView()
 
 void MasterView::goPreviousView()
 {
-   IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or bookName!=' ') ");
+    // 获取数据库单例实例
+    IDatabase& db = IDatabase::getInstance();
+    // 判断借阅RecordsTabModel 是否已经初始化（不为空）
+    if (db.borrowRecordsTabModel != nullptr) {
+        // 模型已初始化，执行查询
+        db.searchRecord("is_returned=0 AND (readerName!=' ' or bookName!=' ') ");
+    } else {
+        qDebug() << "借阅RecordsTabModel 未初始化，不执行查询";
+    }
+
+
+    qDebug()<<"为什么突然不能运行了";
+  // IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or bookName!=' ') ");
     qDebug()<< "test";
     int count=ui->stackedWidget->count();
     if(count>1){
