@@ -18,6 +18,8 @@ public:
 private slots:
     void on_btSearch_clicked();
 
+    void on_btStatistics_clicked();
+
 private:
     Ui::BorrowSelect *ui;
 };

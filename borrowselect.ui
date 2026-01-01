@@ -30,6 +30,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="btStatistics">
+       <property name="text">
+        <string>借阅记录统计</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
