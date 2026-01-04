@@ -12,9 +12,9 @@ bookMessageEditView::bookMessageEditView(QWidget *parent,int index)
     ui->setupUi(this);
 
     dataMapper=new QDataWidgetMapper(this); // 关键：给mapper设置父对象，避免内存泄漏
-    qDebug()<<"草泥马2";
+
     QSqlTableModel *tabModel=IDatabase::getInstance().bookMessageTabModel;
-    qDebug()<<"草泥马3";
+
     dataMapper->setModel(tabModel);
     qDebug()<<"草泥马4";
     // 临时改为手动提交，避免AutoSubmit失效

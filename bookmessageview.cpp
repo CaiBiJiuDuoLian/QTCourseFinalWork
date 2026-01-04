@@ -30,9 +30,9 @@ BookMessageView::~BookMessageView()
 
 void BookMessageView::on_btAdd_clicked()
 {
-    qDebug()<<"真你妈礼品";
+
     int currow=IDatabase::getInstance().addNewBookMessage();
-    qDebug()<<"我就不信不过";
+
     emit goBookMessageEditView(currow);
 }
 
