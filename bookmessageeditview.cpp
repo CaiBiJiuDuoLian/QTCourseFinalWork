@@ -16,14 +16,14 @@ bookMessageEditView::bookMessageEditView(QWidget *parent,int index)
     QSqlTableModel *tabModel=IDatabase::getInstance().bookMessageTabModel;
 
     dataMapper->setModel(tabModel);
-    qDebug()<<"草泥马4";
-    // 临时改为手动提交，避免AutoSubmit失效
-    dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-    qDebug()<<"草泥马5";
 
-    // 核对字段名！必须和数据库表完全一致（比如MOBILPHONE是否是MOBILEPHONE）
+
+    dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+
+
     dataMapper->addMapping(ui->bookNameInput,tabModel->fieldIndex("name"));
-    dataMapper->addMapping(ui->authorNameInput,tabModel->fieldIndex("author")); // 核心必填字段
+    dataMapper->addMapping(ui->authorNameInput,tabModel->fieldIndex("author"));
     dataMapper->addMapping(ui->stockNumberInput,tabModel->fieldIndex("stock"));
     dataMapper->setCurrentIndex(index);
     qDebug()<<"映射完成，当前行："<<index;

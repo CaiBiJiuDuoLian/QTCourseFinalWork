@@ -38,9 +38,9 @@ void ReaderFileView::on_btSearch_clicked()
 
 void ReaderFileView::on_btAdd_clicked()
 {
-    qDebug()<<"真你妈礼品";
+
     int currow=IDatabase::getInstance().addNewReaderFile();
-    qDebug()<<"我就不信不过";
+
     emit goReaderFileEditView(currow);
 }
 
@@ -61,8 +61,7 @@ void ReaderFileView::on_btEdit_clicked()
         QMessageBox::information(this, "提示", "未选中要修改的读者档案");
         return ;
     }
-    // QModelIndex curIndex=
-    //     IDatabase::getInstance().theReaderFileSelection->currentIndex();
+
     emit goReaderFileEditView(curIndex.row());
 }
 

@@ -14,9 +14,8 @@ readerFileEditView::readerFileEditView(QWidget *parent,int index)
     qDebug()<<"草泥马3";
     dataMapper->setModel(tabModel);
     qDebug()<<"草泥马4";
-    // 临时改为手动提交，避免AutoSubmit失效
     dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-    qDebug()<<"草泥马5";
+
 
     // 核对字段名！必须和数据库表完全一致（比如MOBILPHONE是否是MOBILEPHONE）
     dataMapper->addMapping(ui->ReaderNameInput,tabModel->fieldIndex("name"));
