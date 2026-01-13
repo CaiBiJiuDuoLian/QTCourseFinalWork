@@ -29,9 +29,10 @@ ReaderFileView::~ReaderFileView()
 }
 
 void ReaderFileView::on_btSearch_clicked()
-{
+{       //设置过滤条件
     QString filter =QString("name like '%%1%'").arg(ui->txtSearch->text());
 
+    //调用idatabase.cpp相关函数
     IDatabase::getInstance().searchReaderFile(filter);
 }
 
@@ -39,22 +40,24 @@ void ReaderFileView::on_btSearch_clicked()
 void ReaderFileView::on_btAdd_clicked()
 {
 
+    //获取模型中行号
     int currow=IDatabase::getInstance().addNewReaderFile();
-
+//跳转到输入页面
     emit goReaderFileEditView(currow);
 }
 
 
 void ReaderFileView::on_btDelete_clicked()
 {
-    qDebug()<<"奇怪";
+
     IDatabase::getInstance().deleteCurrentReaderFile();
-    qDebug()<<"为什么不能行";
+
 }
 
 
 void ReaderFileView::on_btEdit_clicked()
 {
+    //获取鼠标当前行
     QModelIndex curIndex =IDatabase::getInstance().theReaderFileSelection->currentIndex();
     if (!curIndex.isValid()) { // 检查是否选中行
         qDebug() << "未选中要修改的读者档案";
