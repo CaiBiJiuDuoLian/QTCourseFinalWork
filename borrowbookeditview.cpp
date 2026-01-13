@@ -37,10 +37,6 @@ borrowBookEditView::borrowBookEditView(QWidget *parent,int index)
 
 
 
-
-
-
-
     dataMapper=new QDataWidgetMapper(this);
 
     QSqlTableModel *tabModel=IDatabase::getInstance().borrowRecordsTabModel;
@@ -51,17 +47,17 @@ borrowBookEditView::borrowBookEditView(QWidget *parent,int index)
     dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
 
-    // 核对字段名！必须和数据库表完全一致（比如MOBILPHONE是否是MOBILEPHONE）
+    // 核对字段名！必须和数据库表完全一致
     dataMapper->addMapping(ui->bookIdInput,tabModel->fieldIndex("book_id"));
     dataMapper->addMapping(ui->readerIdInput,tabModel->fieldIndex("reader_id"));
     dataMapper->addMapping(ui->bookNameInput,tabModel->fieldIndex("bookName"));
-    dataMapper->addMapping(ui->readerNameInput,tabModel->fieldIndex("readerName")); // 核心必填字段
+    dataMapper->addMapping(ui->readerNameInput,tabModel->fieldIndex("readerName"));
     dataMapper->addMapping(ui->dueTimeInput,tabModel->fieldIndex("due_time"));
-    dataMapper->addMapping(ui->borrowTimeInput,tabModel->fieldIndex("borrow_time")); // 核心必填字段
+    dataMapper->addMapping(ui->borrowTimeInput,tabModel->fieldIndex("borrow_time"));
 
 
 
-    //12.31.00 测试豆包代码
+
     // 新增借阅记录时，默认设置is_returned为0（未归还）
     if (index == tabModel->rowCount()) { // 新增行（index是最后一行）
         QModelIndex isReturnedIndex = tabModel->index(index, tabModel->fieldIndex("is_returned"));
@@ -86,6 +82,7 @@ borrowBookEditView::~borrowBookEditView()
 // 读者名输入变化时触发
 void borrowBookEditView::on_readerNameInput_textChanged(const QString &text)
 {
+    //输入读者名时自动查询id，查不到就会后台提示
     readerQueryTimer->stop();
     if (!text.isEmpty()) readerQueryTimer->start();
 }
@@ -160,7 +157,7 @@ void borrowBookEditView::on_btBorrow_clicked()
 {
 
 
-    //12.31测试豆包代码
+
     // 1. 验证必要字段（reader_id和book_id必须匹配成功，否则不允许提交）
     QString readerId = ui->readerIdInput->text().trimmed();
     QString bookId = ui->bookIdInput->text().trimmed();
@@ -175,7 +172,7 @@ void borrowBookEditView::on_btBorrow_clicked()
     }
     if (borrowTime.isEmpty() || dueTime.isEmpty()) {
         qDebug() << "提交失败：借阅时间或到期时间未填写";
-        // QMessageBox::critical(this, "错误", "请填写完整的借阅时间和到期时间！");
+
         return;
     }
 
