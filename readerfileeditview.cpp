@@ -9,17 +9,17 @@ readerFileEditView::readerFileEditView(QWidget *parent,int index)
     ui->setupUi(this);
 
     dataMapper=new QDataWidgetMapper(this); // 关键：给mapper设置父对象，避免内存泄漏
-    qDebug()<<"草泥马2";
+
     QSqlTableModel *tabModel=IDatabase::getInstance().readerFileTabModel;
-    qDebug()<<"草泥马3";
+
     dataMapper->setModel(tabModel);
-    qDebug()<<"草泥马4";
+
     dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
 
-    // 核对字段名！必须和数据库表完全一致（比如MOBILPHONE是否是MOBILEPHONE）
+
     dataMapper->addMapping(ui->ReaderNameInput,tabModel->fieldIndex("name"));
-    dataMapper->addMapping(ui->readerPhoneInput,tabModel->fieldIndex("phone")); // 核心必填字段
+    dataMapper->addMapping(ui->readerPhoneInput,tabModel->fieldIndex("phone"));
     dataMapper->setCurrentIndex(index);
     qDebug()<<"映射完成，当前行："<<index;
 }
@@ -37,7 +37,7 @@ void readerFileEditView::on_btSave_clicked()
     QString name = ui->ReaderNameInput->text().trimmed();
     QString phone = ui->readerPhoneInput->text().trimmed();
 
-    // 检查核心必填字段（根据实际业务逻辑调整需要检查的字段）
+
     if (name.isEmpty() || phone.isEmpty() ) {
         QMessageBox::warning(this, "提示", "部分信息未填满，请请完善所有必填字段后再保存！");
         IDatabase::getInstance().searchReaderFile("name!=' '");
@@ -45,7 +45,7 @@ void readerFileEditView::on_btSave_clicked()
     }
 
 
-    // 1. 手动提交mapper的控件值到模型（关键！）
+    // 1. 手动提交mapper的控件值到模型
     dataMapper->submit();
     qDebug()<<"mapper提交完成";
 

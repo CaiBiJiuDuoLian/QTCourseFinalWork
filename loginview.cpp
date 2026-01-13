@@ -16,10 +16,7 @@ loginView::~loginView()
 
 void loginView::on_btSignin_clicked()
 {
-    //暂时不做处理
-    // if(1)
-    // qDebug()<<"为啥";
-    //     emit LoginSuccess();
+
 
     QString status= IDatabase::getInstance().userLogin(ui->inputUsername->text(),ui->inputPassword->text());
     if(status=="loginOK")

@@ -14,12 +14,6 @@ MasterView::MasterView(QWidget *parent)
     ui->setupUi(this);
 
 
-    //1.1测试豆包代码
-    // 创建并启动逾期检查线程
-
-
-
-
 
 
 
@@ -34,7 +28,6 @@ MasterView::~MasterView()
     delete ui;
 
 
-    //1.1测试豆包代码
     if (m_overdueChecker) {
         m_overdueChecker->stop();
         delete m_overdueChecker;
@@ -42,7 +35,7 @@ MasterView::~MasterView()
 }
 
 
-//1.1测试豆包代码
+
 // 处理逾期记录的槽函数
 void MasterView::handleOverdue(int recordId, const QString &readerName,
                                const QString &bookName, const QDateTime &dueDate) {
@@ -55,7 +48,7 @@ void MasterView::handleOverdue(int recordId, const QString &readerName,
     // 在主线程中显示提示
     QMessageBox::warning(this, "逾期提醒", msg);
 
-    // 也可以记录到日志或发送通知
+
 }
 
 
@@ -197,7 +190,7 @@ void MasterView::goRecordView()
     record_view=new RecordView(this);
     pushWidgetToStackView(record_view);
 
-    //IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or readerName!=' ') ");
+
     connect( record_view,SIGNAL(goBorrowRecordsEditView(int)),this,SLOT(goBorrowBookEditView(int)));
 }
 
@@ -214,9 +207,6 @@ void MasterView::goPreviousView()
     }
 
 
-    qDebug()<<"为什么突然不能运行了";
-  // IDatabase::getInstance().searchRecord("is_returned=0 AND (readerName!=' ' or bookName!=' ') ");
-    qDebug()<< "test";
     int count=ui->stackedWidget->count();
     if(count>1){
         ui->stackedWidget->setCurrentIndex(count-2);

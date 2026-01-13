@@ -8,7 +8,7 @@ borrowBookEditView::borrowBookEditView(QWidget *parent,int index)
 {
     ui->setupUi(this);
 
-    //12.31.00测试豆包代码
+
     // 初始化延迟查询定时器（500ms延迟，避免输入时频繁查询数据库）
     readerQueryTimer = new QTimer(this);
     readerQueryTimer->setSingleShot(true); // 单次触发
@@ -41,15 +41,14 @@ borrowBookEditView::borrowBookEditView(QWidget *parent,int index)
 
 
 
-    dataMapper=new QDataWidgetMapper(this); // 关键：给mapper设置父对象，避免内存泄漏
+    dataMapper=new QDataWidgetMapper(this);
 
     QSqlTableModel *tabModel=IDatabase::getInstance().borrowRecordsTabModel;
 
     dataMapper->setModel(tabModel);
-    qDebug()<<"草泥马4";
+
     // 临时改为手动提交，避免AutoSubmit失效
     dataMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-    qDebug()<<"草泥马5";
 
 
     // 核对字段名！必须和数据库表完全一致（比如MOBILPHONE是否是MOBILEPHONE）
@@ -84,15 +83,14 @@ borrowBookEditView::~borrowBookEditView()
 
 
 
-//12.31.00测试豆包代码
-// 读者名输入变化时触发（启动延迟查询）
+// 读者名输入变化时触发
 void borrowBookEditView::on_readerNameInput_textChanged(const QString &text)
 {
     readerQueryTimer->stop();
     if (!text.isEmpty()) readerQueryTimer->start();
 }
 
-// 书名输入变化时触发（启动延迟查询）
+// 书名输入变化时触发
 void borrowBookEditView::on_bookNameInput_textChanged(const QString &text)
 {
     bookQueryTimer->stop();
@@ -111,7 +109,7 @@ void borrowBookEditView::queryReaderId(const QString &readerName)
         }
     }
 
-    // 2. 构建查询条件（模糊匹配读者名，若读者名唯一可改用=）
+    // 2. 构建查询条件
     QString filter = QString("name like '%%1%'").arg(readerName);
     db.searchReaderFile(filter); // 应用过滤条件
 
@@ -124,8 +122,7 @@ void borrowBookEditView::queryReaderId(const QString &readerName)
     } else {
         ui->readerIdInput->clear();
         qDebug() << "未找到读者：" << readerName;
-        // 可选：弹出提示框告知用户未找到该读者
-        // QMessageBox::warning(this, "提示", "未找到该读者，请检查输入！");
+
     }
 }
 
@@ -154,34 +151,9 @@ void borrowBookEditView::queryBookId(const QString &bookName)
     } else {
         ui->bookIdInput->clear();
         qDebug() << "未找到图书：" << bookName;
-        // 可选：弹出提示框告知用户未找到该图书
-        // QMessageBox::warning(this, "提示", "未找到该图书，请检查输入！");
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void borrowBookEditView::on_btBorrow_clicked()
@@ -210,17 +182,7 @@ void borrowBookEditView::on_btBorrow_clicked()
 
 
 
-
-
-
-
-
-
-
-
-
-
-    // 1. 手动提交mapper的控件值到模型（关键！）
+    // 1. 手动提交mapper的控件值到模型
     dataMapper->submit();
     qDebug()<<"mapper提交完成";
 

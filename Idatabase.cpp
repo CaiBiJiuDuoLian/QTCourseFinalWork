@@ -95,28 +95,6 @@ bool IDatabase::initReaderFileModel()
     return true;
 }
 
-// bool IDatabase::initBorrowRecordsModel()
-// {
-//     qDebug() << "===== 初始化患者模型 =====";
-//     if (!database.isOpen()) { // 先检查数据库是否打开
-//         qDebug() << "数据库未打开，初始化模型失败";
-//         return false;
-//     }
-//     borrowRecordsTabModel=new QSqlTableModel(this,database);
-//     qDebug() << "borrowRecordsTabModel 创建：" << borrowRecordsTabModel; // 打印指针地址，若为0则崩溃
-//     borrowRecordsTabModel->setTable("borrow_records");
-//     qDebug() << "设置表为borrow_records：" << borrowRecordsTabModel->lastError().text();
-//     borrowRecordsTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
-//     borrowRecordsTabModel->setSort(borrowRecordsTabModel->fieldIndex("readerName"),Qt::AscendingOrder);
-//     qDebug() << "排序字段：" << borrowRecordsTabModel->fieldIndex("readerName"); // 若为-1，说明字段名错误
-//     if(!(borrowRecordsTabModel->select())) {
-//         qDebug() << "查询books表失败：" << borrowRecordsTabModel->lastError().text();
-//         return false;
-//     }
-//     theborrowRecordsSelection=new QItemSelectionModel(borrowRecordsTabModel);
-//     qDebug() << "theRecordSelection 创建：" << theborrowRecordsSelection;
-//     return true;
-// }
 
 
 int IDatabase::addNewBookMessage()
@@ -326,11 +304,6 @@ IDatabase::IDatabase(QObject *parent)
 
 
 
-
-
-
-
-//1.1测试豆包代码
 QSqlQuery IDatabase::getOverdueRecords(const QString &filter) {
     if (!borrowRecordsTabModel) {
         return QSqlQuery();

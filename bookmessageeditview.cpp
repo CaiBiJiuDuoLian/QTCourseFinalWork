@@ -50,7 +50,7 @@ void bookMessageEditView::on_btSave_clicked()
     }
 
 
-    // 1. 手动提交mapper的控件值到模型（关键！）
+    // 1. 手动提交mapper的控件值到模型
     dataMapper->submit();
     qDebug()<<"mapper提交完成";
 

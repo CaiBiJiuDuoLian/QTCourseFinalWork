@@ -1,84 +1,3 @@
-// // #include "OverdueManager.h"
-
-// // overduemanager::overduemanager(QObject *parent)
-// //     : QObject{parent}
-// // {}
-
-// #include "overduechecker.h"
-// #include "idatabase.h"
-// #include <QSqlQuery>
-// #include <QDateTime>
-
-// OverdueChecker::OverdueChecker(QObject *parent) : QThread(parent)
-// {
-//     m_running = true;
-// }
-
-// void OverdueChecker::stop()
-// {
-//     m_running = false;
-//     wait();
-// }
-
-// void OverdueChecker::run()
-// {
-
-
-//     // 在线程内部创建数据库连接
-//     QSqlDatabase db;
-//     if (QSqlDatabase::contains("overdue_checker_connection")) {
-//         db = QSqlDatabase::database("overdue_checker_connection");
-//     } else {
-//         db = QSqlDatabase::addDatabase("QSQLITE", "overdue_checker_connection");
-//     }
-
-//     // 使用和主线程相同的数据库文件路径
-//     db.setDatabaseName("C:\\Users\\cd050\\Desktop\\QTHomeWork\\CourseHomework\\book_system.db");
-
-//     if (!db.open()) {
-//         qDebug() << "OverdueChecker: 打开数据库失败：" << db.lastError().text();
-//         return;
-//     }
-
-
-
-
-//     while (m_running) {
-//         // 检查逾期记录
-//         checkOverdueRecords();
-
-//         // 每50检查一次（50秒）
-//         for (int i = 0; i < 50 && m_running; ++i) {
-//             sleep(1); // 休眠1秒
-//         }
-//     }
-
-//     db.close();
-
-// }
-
-// void OverdueChecker::checkOverdueRecords()
-// {
-//     IDatabase &db = IDatabase::getInstance();
-//     QDateTime current = QDateTime::currentDateTime();
-
-//     // 获取所有未归还且已逾期的记录
-//     QString filter = QString("is_returned = 0 AND due_date < '%1'")
-//                          .arg(current.toString("yyyy-MM-dd"));
-
-//     QSqlQuery query = db.getOverdueRecords(filter);
-//     while (query.next()) {
-//         int recordId = query.value("id").toInt();
-//         QString readerName = query.value("readerName").toString();
-//         QString bookName = query.value("bookName").toString();
-//         QDateTime dueDate = query.value("due_date").toDateTime();
-
-//         // 发送逾期信号
-//         emit overdueFound(recordId, readerName, bookName, dueDate);
-//     }
-// }
-
-
 
 
 
@@ -153,41 +72,14 @@ void OverdueChecker::checkOverdueRecords(QSqlDatabase &db)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     QDateTime current = QDateTime::currentDateTime();
-    // 根据你的实际表结构调整查询
-    // 假设你的 borrow_records 表有这些字段：id, reader_id, book_id, due_date, return_date
-    // 读者表有：reader_id, name
-    // 图书表有：book_id, name
+
 
     QSqlQuery query(db);
 
 
 
 
-
-    // QString sql = QString(
-    //                   "SELECT * FROM borrow_records  "
-    //                   "WHERE is_returned = 0 "
-    //                   "AND due_time < NOW()"
-    //                   );
-
-    // if (!query.exec()) {
-    //     qDebug() << "OverdueChecker: 查询失败：" << query.lastError().text();
-    //     return;
-    // }
 
 
 
