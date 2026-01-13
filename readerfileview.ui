@@ -13,6 +13,13 @@
   <property name="windowTitle">
    <string>读者档案</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #f8fbff, stop:1 #e8f2f8); /* 从上到下的浅蓝渐变背景 */
+    font-family: &quot;微软雅黑&quot;;
+    font-size: 14px;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
