@@ -31,14 +31,18 @@ BookMessageView::~BookMessageView()
 void BookMessageView::on_btAdd_clicked()
 {
 
+    //返回新增的信息的行号
     int currow=IDatabase::getInstance().addNewBookMessage();
 
+    //传入构造函数，然后传入模型，作为信息的行号
     emit goBookMessageEditView(currow);
 }
 
 
 void BookMessageView::on_btSearch_clicked()
+
 {
+    //获取过滤信息
     QString filter =QString("name like '%%1%'").arg(ui->txtSearch->text());
 
     IDatabase::getInstance().searchBookMessage(filter);
@@ -47,15 +51,16 @@ void BookMessageView::on_btSearch_clicked()
 
 void BookMessageView::on_btDelete_clicked()
 {
-    qDebug()<<"奇怪";
+
     IDatabase::getInstance().deleteCurrentBookMessage();
-    qDebug()<<"为什么不能行";
+
 }
 
 
 void BookMessageView::on_btEdit_clicked()
 {
 
+    //获取鼠标选中行号
     QModelIndex curIndex =IDatabase::getInstance().theBookMessageSelection->currentIndex();
     if (!curIndex.isValid()) { // 检查是否选中行
         qDebug() << "未选中要修改的读者档案";

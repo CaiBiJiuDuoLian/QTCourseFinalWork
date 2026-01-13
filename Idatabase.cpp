@@ -25,24 +25,24 @@ void IDatabase::initDatabase()
 
 bool IDatabase::initBookMessageModel()
 {
-    qDebug() << "===== 初始化患者模型 =====";
+
     if (!database.isOpen()) { // 先检查数据库是否打开
         qDebug() << "数据库未打开，初始化模型失败";
         return false;
     }
     bookMessageTabModel=new QSqlTableModel(this,database);
-    qDebug() << "bookMessageTabModel 创建：" << bookMessageTabModel; // 打印指针地址，若为0则崩溃
+
     bookMessageTabModel->setTable("books");
-    qDebug() << "设置表为books：" << bookMessageTabModel->lastError().text();
+
     bookMessageTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
     bookMessageTabModel->setSort(bookMessageTabModel->fieldIndex("name"),Qt::AscendingOrder);
-    qDebug() << "排序字段：" << bookMessageTabModel->fieldIndex("name"); // 若为-1，说明字段名错误
+
     if(!(bookMessageTabModel->select())) {
         qDebug() << "查询books表失败：" << bookMessageTabModel->lastError().text();
         return false;
     }
     theBookMessageSelection=new QItemSelectionModel(bookMessageTabModel);
-    qDebug() << "theBookMessageSelection 创建：" << theBookMessageSelection;
+
     return true;
 }
 
@@ -71,7 +71,7 @@ bool IDatabase::initBorrowRecordsModel()
 }
 
 
-//读者档案模型，目前只创建了读者档案模型
+//读者档案模型
 bool IDatabase::initReaderFileModel()
 {
     qDebug() << "===== 初始化患者模型 =====";
@@ -80,18 +80,18 @@ bool IDatabase::initReaderFileModel()
         return false;
     }
     readerFileTabModel=new QSqlTableModel(this,database);
-    qDebug() << "readerFileTabModel 创建：" << readerFileTabModel; // 打印指针地址，若为0则崩溃
+
     readerFileTabModel->setTable("readers");
-    qDebug() << "设置表为readers：" << readerFileTabModel->lastError().text();
+
     readerFileTabModel->setEditStrategy(QSqlTableModel ::OnManualSubmit);
    readerFileTabModel->setSort(readerFileTabModel->fieldIndex("reader_id"),Qt::AscendingOrder);
-    qDebug() << "排序字段：" << readerFileTabModel->fieldIndex("reader_id"); // 若为-1，说明字段名错误
+
     if(!(readerFileTabModel->select())) {
         qDebug() << "查询books表失败：" << readerFileTabModel->lastError().text();
         return false;
     }
     theReaderFileSelection=new QItemSelectionModel(readerFileTabModel);
-    qDebug() << "theReaderFileSelection 创建：" << theReaderFileSelection;
+
     return true;
 }
 
@@ -99,14 +99,17 @@ bool IDatabase::initReaderFileModel()
 
 int IDatabase::addNewBookMessage()
 {
+    //插入模型
     bookMessageTabModel->insertRow(bookMessageTabModel->rowCount(),
                                QModelIndex());
     QModelIndex curIndex=bookMessageTabModel->index(bookMessageTabModel->rowCount()-1,
                                                   1);
 
+    //获取模型中该数据行号
     int curRecNo=curIndex.row();
+    //获取数据行
     QSqlRecord curRec=bookMessageTabModel->record(curRecNo);
-    // curRec.setValue("CREATEDTIMESAMP",QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    //将模型数据行中未插入的字段自己补充，比如id
     curRec.setValue("book_id",QUuid::createUuid().toString(QUuid::WithoutBraces));
     bookMessageTabModel->setRecord(curRecNo,curRec);
     return curIndex.row();
@@ -150,8 +153,9 @@ int IDatabase::addNewBorrowRecord()
 
 bool IDatabase::searchBookMessage(QString filter)
 {
+    //过滤模型数据
     bookMessageTabModel->setFilter(filter);
-    bool ok = bookMessageTabModel->select(); // 应用过滤并重新查询
+    bool ok = bookMessageTabModel->select(); // 应用过滤并重新查询，显示到页面上
     if (!ok) {
         qDebug() << "查询失败：" << bookMessageTabModel->lastError().text();
     }
@@ -182,6 +186,7 @@ bool IDatabase::searchReaderFile(QString filter)
 
 bool IDatabase::deleteCurrentBookMessage()
 {
+    //获取鼠标选中行
     QModelIndex curIndex = theBookMessageSelection->currentIndex();
     if (!curIndex.isValid()) { // 检查是否选中行
         qDebug() << "未选中要删除的患者";

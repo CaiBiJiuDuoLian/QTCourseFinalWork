@@ -52,18 +52,6 @@ void MasterView::handleOverdue(int recordId, const QString &readerName,
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 void MasterView::pushWidgetToStackView(QWidget *widget)
 {
 
